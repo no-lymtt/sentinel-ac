@@ -80,7 +80,7 @@ local clock = os.clock()
 -- main check function
 local function check()
 	
-	if script:FindFirstChild("LICENSE") == nil or script:FindFirstChild("Settings") == nil then
+	if script:FindFirstChild("Settings") == nil then
 		game.Players.LocalPlayer:Kick("An error occured: SID-CL-MSD")
 	end
 	-- constants
