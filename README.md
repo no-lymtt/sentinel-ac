@@ -17,3 +17,4 @@ If you think that open source anti-cheats are stupid then just don't use it. Thi
 ### Cons
 - More susceptible to cheaters than proprietary anti-cheats are
 - Won't have many of the checks that proprietary anti-cheats use
+- Significantly less secure
