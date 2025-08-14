@@ -7,7 +7,7 @@
  /$$  \ $$| $$_____/| $$  | $$  | $$ /$$| $$| $$  | $$| $$_____/| $$        | $$  | $$  | $$
 |  $$$$$$/|  $$$$$$$| $$  | $$  |  $$$$/| $$| $$  | $$|  $$$$$$$| $$       /$$$$$$| $$$$$$$/
  \______/  \_______/|__/  |__/   \___/  |__/|__/  |__/ \_______/|__/      |______/|_______/                                                                                    
-Sentinel Intrusion Detection v0.1
+Sentinel Intrusion Detection v0.1-prealpha.1
 
 © 2025 NO LYMT under the MIT License
 
@@ -128,7 +128,9 @@ task.spawn(function()
 	end
 end)
 
-print("SID Initialized in " .. tostring((os.clock() - initClock)*1000) .. "s")
+if game:GetService("RunService"):IsStudio() then
+	print("SID Initialized in " .. tostring((os.clock() - initClock)*1000) .. "s")
+end
 
 while task.wait(1/options.TickRate) do
 	check()
