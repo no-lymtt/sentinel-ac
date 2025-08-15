@@ -19,10 +19,9 @@ If you think that open source anti-cheats are stupid then just don't use it. Thi
 - Won't have many of the checks that proprietary anti-cheats use
 - Significantly less secure
 ## Error Codes
-SID-CL-MSD: Missing files
-
-SAC-NW-NET: Handshake timed out
-
-SAC-NW-REM-01: Bad argument count passed in remote event
-
-SAC-NW-REM-02: Bad argument type passed in remote event
+| Error Code    | Message                                           |
+|---------------|---------------------------------------------------|
+| SID-CL-MSD    | Missing files                                     |
+| SAC-NW-NET    | Handshake timed out                               |
+| SAC-NW-REM-01 | Bad argument count passed in remote event         |
+| SAC-NW-REM-02 | Bad argument type passed in remote event          |
