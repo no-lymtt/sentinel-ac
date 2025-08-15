@@ -10,6 +10,7 @@ options.TickRate = 20
 
 -- Allow scripts to be added to the player at runtime.
 -- If this is set to false, all scripts added to the player after initialization will be deactivated in studio or deleted while not in studio.
+-- DOESNT WORK YET :) PLANNED TO BE ADDED ON OR BEFORE v0.1-prealpha.5
 options.AllowPostLaunchScriptActivation = true
 
 -- Set the maximum WalkSpeed a player may have. Make sure to set this to the highest WalkSpeed the player can achieve.
@@ -27,5 +28,8 @@ options.MaxJumpHeight = -1
 -- Limit extra instances under PlayerGui. If an instance is added to PlayerGui that isn't allowed.
 options.LimitPlayerGui = true
 options.PlayerGuiWhitelist = {} -- FullNames of instances allowed to be added during runtime. This does not automatically include descendants. I may add it as a feature later on if it makes sense to.
+
+-- Obfuscates script names with sha256. This WILL break your game if your scripts are not made for it.
+options.ObfuscateScripts = false
 
 return options
