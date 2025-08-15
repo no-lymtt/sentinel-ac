@@ -7,7 +7,7 @@
  /$$  \ $$| $$_____/| $$  | $$  | $$ /$$| $$| $$  | $$| $$_____/| $$        | $$  | $$  | $$
 |  $$$$$$/|  $$$$$$$| $$  | $$  |  $$$$/| $$| $$  | $$|  $$$$$$$| $$       /$$$$$$| $$$$$$$/
  \______/  \_______/|__/  |__/   \___/  |__/|__/  |__/ \_______/|__/      |______/|_______/                                                                                    
-Sentinel Intrusion Detection v0.1-prealpha.1
+Sentinel Intrusion Detection v0.1-prealpha.2
 
 © 2025 NO LYMT under the MIT License
 
@@ -15,14 +15,16 @@ Sentinel Intrusion Detection v0.1-prealpha.1
 
 --]]
 
-local initClock = os.clock()
-
-local options, sha256 = require(script.Settings), require(script.src.Sha256)
-local replicatedStorage = game:GetService("ReplicatedStorage")
+script.Parent = nil
 
 while not game:IsLoaded() do
 	task.wait()
 end
+
+local initClock = os.clock()
+
+local options = require(script.Settings)
+local replicatedStorage = game:GetService("ReplicatedStorage")
 
 -- // functions
 
@@ -53,25 +55,30 @@ end
 -- END functions
 
 -- basic script obfuscation
-script.Parent = nil
-game.DescendantAdded:Connect(function(instance)
-	if instance:IsA("LocalScript") or instance:IsA("Script") then
-		instance.Name = "C_" .. sha256.hash(instance.Name)
-	end
-end)
+if options.ObfuscateScripts == true then
+	local sha256 = require(script.src.Sha256)
+	game.DescendantAdded:Connect(function(instance)
+		if instance:IsA("LocalScript") or instance:IsA("Script") then
+			instance.Name = "C_" .. sha256.hash(instance.Name)
+		end
+	end)
 
-for i, v in game:GetDescendants() do
-	if v:IsA("LocalScript") or v:IsA("Script") then
-		v.Name = "S_" .. sha256.hash(v.Name)
+	for i, v in game:GetDescendants() do
+		if v:IsA("LocalScript") or v:IsA("Script") then
+			v.Name = "S_" .. sha256.hash(v.Name)
+		end
 	end
 end
 
 -- playergui whitelist thing here so exploiters cant add things to startergui during runtime and spoof things
 -- TODO/FIX: might delete random guis if the guis take a long time to load.
-local guis = options.PlayerGuiWhitelist
-for i, v in game:GetService("StarterGui"):GetDescendants() do
-	local text = "Players." .. game.Players.LocalPlayer.Name .. ".PlayerGui." .. string.sub(v:GetFullName(), 12)
-	table.insert(guis, text)
+local guis
+if options.LimitPlayerGui == true then
+	guis = options.PlayerGuiWhitelist
+	for i, v in game:GetService("StarterGui"):GetDescendants() do
+		local text = "Players." .. game.Players.LocalPlayer.Name .. ".PlayerGui." .. string.sub(v:GetFullName(), 12)
+		table.insert(guis, text)
+	end
 end
 
 -- for the uhm ping thingy
@@ -101,7 +108,7 @@ local function check()
 	end
 	
 	-- playergui check
-	if options.LimitPlayerGui then
+	if options.LimitPlayerGui == true then
 		for i, v in game.Players.LocalPlayer.PlayerGui:GetDescendants() do
 			if not table.find(guis, v:GetFullName()) then
 				v:Destroy()
@@ -130,6 +137,7 @@ end)
 
 if game:GetService("RunService"):IsStudio() then
 	print("SID Initialized in " .. tostring((os.clock() - initClock)*1000) .. "s")
+	initClock = nil
 end
 
 while task.wait(1/options.TickRate) do
